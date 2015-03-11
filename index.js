@@ -13,13 +13,17 @@ if(argv.h || argv.help){
 else {
   var fc = flatten(normalize(JSON.parse(fs.readFileSync(argv._[0]))));
 
+  // parse opts
   var zoom;
   if(argv.z) zoom = parseFloat(argv.z);
   if(argv.zoom) zoom = parseFloat(argv.zoom);
   var border = 1
   if(argv.b) border = argv.b;
   if(argv.border) border = argv.border;
-  
+  var mod = 0;
+  if(argv.m) mod = (argv.m);
+  if(argv.mod) mod = parseFloat(argv.mod);
+
   if(!zoom>0) {
     var bbox = turf.extent(fc)
     var found = false;
@@ -64,10 +68,18 @@ else {
       z++;
     }
   }
+
+  zoom += mod
   var map = '';
   var tiles = [];
   fc.features.forEach(function(f) {
-    tiles = tiles.concat(tileCover.tiles(f.geometry, {min_zoom: zoom, max_zoom: zoom}));
+    var newTiles = tileCover.tiles(f.geometry, {min_zoom: zoom, max_zoom: zoom})
+      .map(function(t){
+        t[2] = f.geometry.type;
+        return t;
+      });
+
+    tiles = tiles.concat(newTiles);
   });
 
   var xs = tiles.map(function(t){return t[0]; });
@@ -95,7 +107,7 @@ else {
 
   var tileHash = {}
   tiles.forEach(function(tile){
-    tileHash[tile[0]+'/'+tile[1]] = true;
+    tileHash[tile[0]+'/'+tile[1]] = tile[2];
   })
 
   var x = minX;
@@ -103,7 +115,9 @@ else {
   while(y <= maxY) {
     while(x <= maxX) {
       if(tileHash[x+'/'+y]) {
-        map+=colors.green.bgGreen('XX');
+        if(tileHash[x+'/'+y] === 'Polygon' || tileHash[x+'/'+y] === 'MultiPolygon') map+=colors.bgGreen.green('..');
+        else if(tileHash[x+'/'+y] === 'LineString' || tileHash[x+'/'+y] === 'MultiLineString') map+=colors.bgBlack.black('XX');
+        else if(tileHash[x+'/'+y] === 'Point' || tileHash[x+'/'+y] === 'MultiPoint') map+=colors.bgRed.red('@@');
       }
       else map+=colors.bgBlue('  ');
       x++;
@@ -120,6 +134,7 @@ function docs(){
   console.log('geotype\n===\n');
   console.log('geotype [file]\n');
   console.log('-z --zoom (OPTIONAL): specify fixed tile zoom level\n');
+  console.log('-m --mod (OPTIONAL): overzoom factor\n');
   console.log('-b --border (OPTIONAL): number of tiles to pad sides of frame\n');
   console.log('--nocolor (OPTIONAL): display plain ascii w/o colors\n');
   console.log('-h --help: show docs\n');
