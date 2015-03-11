@@ -7,17 +7,19 @@ var fs = require('fs');
 var colors = require('colors/safe');
 var normalize = require('geojson-normalize');
 
-var fc = flatten(normalize(JSON.parse(fs.readFileSync(argv._[0]))));
 if(argv.h || argv.help){
   docs();
 }
 else {
+  var fc = flatten(normalize(JSON.parse(fs.readFileSync(argv._[0]))));
+
   var zoom;
   if(argv.z) zoom = parseFloat(argv.z);
   if(argv.zoom) zoom = parseFloat(argv.zoom);
   var border = 1
   if(argv.b) border = argv.b;
   if(argv.border) border = argv.border;
+  
   if(!zoom>0) {
     var bbox = turf.extent(fc)
     var found = false;
