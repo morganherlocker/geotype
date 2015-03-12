@@ -31,7 +31,7 @@ geotype vermont.geojson
 
 --nocolor : display plain ascii w/o colors
 
--h --help: show docs
+-h --help : show docs
 ```
 
 ##test
