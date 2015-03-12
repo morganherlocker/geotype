@@ -23,15 +23,20 @@ geotype vermont.geojson
 ##options
 
 ```sh
--z --zoom : specify fixed tile zoom level
+-z --zoom : specify fixed tile pixel zoom level
+
+--bbox=minX,minY,maxX,maxY : set frame to a bbox
+
+-t --tile : set frame to a tile [x/y/z]
 
 -m --mod : overzoom factor
 
--b --border : number of tiles to pad sides of frame
+-b --border : number of tile pixels to pad sides of frame
 
 --nocolor : display plain ascii w/o colors
 
 -h --help : show docs
+
 ```
 
 ##test
