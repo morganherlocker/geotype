@@ -20,6 +20,20 @@ npm install geotype -g
 geotype vermont.geojson
 ```
 
+##options
+
+```sh
+-z --zoom (OPTIONAL): specify fixed tile zoom level
+
+-m --mod (OPTIONAL): overzoom factor
+
+-b --border (OPTIONAL): number of tiles to pad sides of frame
+
+--nocolor (OPTIONAL): display plain ascii w/o colors
+
+-h --help: show docs
+```
+
 ##test
 
 ```sh
