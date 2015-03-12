@@ -17,7 +17,7 @@ npm install geotype -g
 ##run
 
 ```sh
-geotype vermont.geojson
+geotype world.geojson
 ```
 
 ##options
