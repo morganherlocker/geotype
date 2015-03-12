@@ -13,7 +13,7 @@ if(argv.h || argv.help){
 else {
   var fc = flatten(normalize(JSON.parse(fs.readFileSync(argv._[0]))));
 
-  // parse opts
+  // parse options
   var zoom;
   if(argv.z) zoom = parseFloat(argv.z);
   if(argv.zoom) zoom = parseFloat(argv.zoom);
@@ -21,8 +21,8 @@ else {
   if(argv.b) border = argv.b;
   if(argv.border) border = argv.border;
   var mod = 0;
-  if(argv.m) mod = (argv.m);
-  if(argv.mod) mod = parseFloat(argv.mod);
+  if(argv.m) mod = argv.m;
+  if(argv.mod) mod = argv.mod;
 
   if(!zoom>0) {
     var bbox = turf.extent(fc)
@@ -115,7 +115,7 @@ else {
   while(y <= maxY) {
     while(x <= maxX) {
       if(tileHash[x+'/'+y]) {
-        if(tileHash[x+'/'+y] === 'Polygon' || tileHash[x+'/'+y] === 'MultiPolygon') map+=colors.bgGreen.green('..');
+        if(tileHash[x+'/'+y] === 'Polygon' || tileHash[x+'/'+y] === 'MultiPolygon') map+=colors.bgGreen.green('::');
         else if(tileHash[x+'/'+y] === 'LineString' || tileHash[x+'/'+y] === 'MultiLineString') map+=colors.bgBlack.black('XX');
         else if(tileHash[x+'/'+y] === 'Point' || tileHash[x+'/'+y] === 'MultiPoint') map+=colors.bgRed.red('@@');
       }
