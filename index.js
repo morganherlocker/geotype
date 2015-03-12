@@ -17,15 +17,15 @@ else {
   var zoom;
   if(argv.z) zoom = parseFloat(argv.z);
   if(argv.zoom) zoom = parseFloat(argv.zoom);
-  var border = 1
+  var border = 1;
   if(argv.b) border = argv.b;
   if(argv.border) border = argv.border;
   var mod = 0;
   if(argv.m) mod = argv.m;
   if(argv.mod) mod = argv.mod;
 
-  if(!zoom>0) {
-    var bbox = turf.extent(fc)
+  if(!(zoom>0)) {
+    var bbox = turf.extent(fc);
     var found = false;
     var z = 3;
     while(!found && z < 28){
@@ -33,32 +33,32 @@ else {
       var lineTilesX = tileCover.tiles(
           turf.linestring([[bbox[0], bbox[1]], [bbox[2], bbox[1]]]).geometry,
           {min_zoom: z, max_zoom: z}
-        )
+        );
       var lineXs = lineTilesX.map(function(t){return t[0]; });
       var lineMinX = lineXs.reduce(function(a, b){
         if(a < b) return a;
         else return b;
-      })
+      });
       var lineMaxX = lineXs.reduce(function(a, b){
         if(a > b) return a;
         else return b;
-      })
+      });
       var diffX = lineMaxX - lineMinX;
 
       // y fit
       var lineTilesY = tileCover.tiles(
           turf.linestring([[bbox[0], bbox[1]], [bbox[0], bbox[3]]]).geometry,
           {min_zoom: z, max_zoom: z}
-        )
+        );
       var lineYs = lineTilesY.map(function(t){return t[1]; });
       var lineMinY = lineYs.reduce(function(a, b){
         if(a < b) return a;
         else return b;
-      })
+      });
       var lineMaxY = lineYs.reduce(function(a, b){
         if(a > b) return a;
         else return b;
-      })
+      });
       var diffY = lineMaxY - lineMinY;
 
       if (diffX > 30 || diffY > 23) {
@@ -69,7 +69,7 @@ else {
     }
   }
 
-  zoom += mod
+  zoom += mod;
   var map = '';
   var tiles = [];
   fc.features.forEach(function(f) {
@@ -82,33 +82,40 @@ else {
     tiles = tiles.concat(newTiles);
   });
 
-  var xs = tiles.map(function(t){return t[0]; });
-  var ys = tiles.map(function(t) { return t[1]; });
-  var minX = xs.reduce(function(a, b){
-    if(a < b) return a;
-    else return b;
-  })
-  var minY = ys.reduce(function(a, b){
-    if(a < b) return a;
-    else return b;
-  })
-  var maxX = xs.reduce(function(a, b){
-    if(a > b) return a;
-    else return b;
-  })
-  var maxY = ys.reduce(function(a, b){
-    if(a > b) return a;
-    else return b;
-  })
-  minX -= border;
-  minY -= border;
-  maxX += border;
-  maxY += border;
-
-  var tileHash = {}
+  var minX;
+  var minY;
+  var maxX;
+  var maxY;
+  if(argv.bbox) {
+    
+  } else {
+    var xs = tiles.map(function(t){return t[0]; });
+    var ys = tiles.map(function(t) { return t[1]; });
+    minX = xs.reduce(function(a, b){
+      if(a < b) return a;
+      else return b;
+    });
+    minY = ys.reduce(function(a, b){
+      if(a < b) return a;
+      else return b;
+    });
+    maxX = xs.reduce(function(a, b){
+      if(a > b) return a;
+      else return b;
+    });
+    maxY = ys.reduce(function(a, b){
+      if(a > b) return a;
+      else return b;
+    });
+    minX -= border;
+    minY -= border;
+    maxX += border;
+    maxY += border;
+  }
+  var tileHash = {};
   tiles.forEach(function(tile){
     tileHash[tile[0]+'/'+tile[1]] = tile[2];
-  })
+  });
 
   var x = minX;
   var y = minY;
@@ -122,7 +129,7 @@ else {
       else map+=colors.bgBlue('  ');
       x++;
     }
-    map+='\n'
+    map+='\n';
     x = minX;
     y++;
   }
@@ -134,6 +141,7 @@ function docs(){
   console.log('geotype\n===\n');
   console.log('geotype [file]\n');
   console.log('-z --zoom : specify fixed tile zoom level\n');
+  console.log('--bbox : specify a bbox\n');
   console.log('-m --mod : overzoom factor\n');
   console.log('-b --border : number of tiles to pad sides of frame\n');
   console.log('--nocolor : display plain ascii w/o colors\n');
