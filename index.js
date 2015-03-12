@@ -133,9 +133,9 @@ else {
 function docs(){
   console.log('geotype\n===\n');
   console.log('geotype [file]\n');
-  console.log('-z --zoom (OPTIONAL): specify fixed tile zoom level\n');
-  console.log('-m --mod (OPTIONAL): overzoom factor\n');
-  console.log('-b --border (OPTIONAL): number of tiles to pad sides of frame\n');
-  console.log('--nocolor (OPTIONAL): display plain ascii w/o colors\n');
-  console.log('-h --help: show docs\n');
+  console.log('-z --zoom : specify fixed tile zoom level\n');
+  console.log('-m --mod : overzoom factor\n');
+  console.log('-b --border : number of tiles to pad sides of frame\n');
+  console.log('--nocolor : display plain ascii w/o colors\n');
+  console.log('-h --help : show docs\n');
 }

@@ -23,13 +23,13 @@ geotype vermont.geojson
 ##options
 
 ```sh
--z --zoom (OPTIONAL): specify fixed tile zoom level
+-z --zoom : specify fixed tile zoom level
 
--m --mod (OPTIONAL): overzoom factor
+-m --mod : overzoom factor
 
--b --border (OPTIONAL): number of tiles to pad sides of frame
+-b --border : number of tiles to pad sides of frame
 
---nocolor (OPTIONAL): display plain ascii w/o colors
+--nocolor : display plain ascii w/o colors
 
 -h --help: show docs
 ```
