@@ -28,7 +28,7 @@ else {
   if(argv.m) mod = argv.m;
   if(argv.mod) mod = argv.mod;
   // fixed tile and bbox frame
-  if(argv.b) argv.bbox = argv.b;
+  if(argv.b) argv.bbox = argv.b.split('=').join('');
   if(argv.bbox) argv.bbox = argv.bbox.split(',').map(parseFloat);
   else if(argv.t) argv.bbox = tilebelt.tileToBBOX(argv.t.split('/').map(parseFloat));
   else if(argv.tile) argv.bbox = tilebelt.tileToBBOX(argv.tile.split('/').map(parseFloat));

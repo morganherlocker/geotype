@@ -17,6 +17,12 @@ done
 
 node index.js fixtures/misc/vt-map.geojson -t 38/46/7
 node index.js fixtures/misc/vt-map.geojson -t 37/46/7
+node index.js fixtures/states/VT.geo.json -t 4/5/4 -z 9
+node index.js fixtures/states/VT.geo.json -t 4/5/4 -z 10
+node index.js fixtures/misc/world.geojson --bbox=-88,26,-69,35
+node index.js fixtures/misc/world.geojson --bbox=-88,26,-69,35 -m 1
+node index.js fixtures/misc/world.geojson -b=-88,26,-69,35
+node index.js fixtures/misc/world.geojson -b=-88,26,-69,35 -m 1
 
 node index.js fixtures/misc/vt-map.geojson --bbox=-71.75,42.97989806962013,-70.5,44.92249926375825 -z 13
 
