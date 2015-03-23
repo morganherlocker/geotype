@@ -1,10 +1,10 @@
 {
   "name": "geotype",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "description": "geojson to ascii cli tool",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "node ./test/test.js"
   },
   "repository": {
     "type": "git",
@@ -23,14 +23,18 @@
   "homepage": "https://github.com/morganherlocker/geotype",
   "dependencies": {
     "colors": "^1.0.3",
+    "concat-stream": "^1.4.7",
     "geojson-flatten": "^0.1.0",
     "geojson-normalize": "0.0.0",
-    "minimist": "^1.1.0",
-    "tile-cover": "^2.4.0",
-    "tilebelt": "^0.7.0",
-    "turf": "^2.0.0"
+    "minimist": "^1.1.1",
+    "tile-cover": "2.4.0",
+    "tilebelt": "0.7.1",
+    "turf": "2.0.2"
   },
   "bin": {
-    "geotype": "index.js"
+    "geotype": "./bin/geotype.js"
+  },
+  "devDependencies": {
+    "tape": "^3.5.0"
   }
 }

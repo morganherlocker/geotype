@@ -1,6 +1,8 @@
 geotype
 ---
 
+[![Build Status](https://travis-ci.org/morganherlocker/geotype.svg)](https://travis-ci.org/morganherlocker/geotype)
+
 geotype is a cli tool for rendering geojson as ascii in your terminal.
 
 *colors*
@@ -20,6 +22,12 @@ npm install geotype -g
 geotype world.geojson
 ```
 
+*or*
+
+```sh
+cat world.geojson | geotype
+```
+
 ##options
 
 ```sh
@@ -36,12 +44,17 @@ geotype world.geojson
 --nocolor : display plain ascii w/o colors
 
 -h --help : show docs
-
-
 ```
 
 ##test
 
 ```sh
-sh ./test.sh
+npm t
+```
+
+##demo
+
+```sh
+cd ./test
+sh test.sh
 ```

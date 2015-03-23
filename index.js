@@ -2,46 +2,47 @@
 var turf = require('turf');
 var flatten = require('geojson-flatten');
 var tileCover = require('tile-cover');
-var argv = require('minimist')(process.argv.slice(2));
-var fs = require('fs');
 var colors = require('colors/safe');
 var normalize = require('geojson-normalize');
 var tilebelt = require('tilebelt');
 
-if(argv.h || argv.help){
-  docs();
-}
-else {
-  var fc = flatten(normalize(JSON.parse(fs.readFileSync(argv._[0]))));
+module.exports = function(geo, opts){
+  if(!opts) opts = {};
+  // normalize geojson data
+  var fc = JSON.parse(JSON.stringify(geo))
+  fc = flatten(normalize(fc));
 
   // parse options
   // fixed pixel zoom
   var zoom;
-  if(argv.z) zoom = parseFloat(argv.z);
-  if(argv.zoom) zoom = parseFloat(argv.zoom);
+  if(opts.z) zoom = parseFloat(opts.z);
+  if(opts.zoom) zoom = parseFloat(opts.zoom);
   // frame buffer
   var frame = 1;
-  if(argv.f) border = argv.f;
-  if(argv.frame) frame = argv.frame;
+  if(opts.f) frame = opts.f;
+  if(opts.frame) frame = opts.frame;
   // overzoom mod
   var mod = 0;
-  if(argv.m) mod = argv.m;
-  if(argv.mod) mod = argv.mod;
+  if(opts.m) mod = opts.m;
+  if(opts.mod) mod = opts.mod;
   // fixed tile and bbox frame
-  if(argv.b) argv.bbox = argv.b.split('=').join('');
-  if(argv.bbox) argv.bbox = argv.bbox.split(',').map(parseFloat);
-  else if(argv.t) argv.bbox = tilebelt.tileToBBOX(argv.t.split('/').map(parseFloat));
-  else if(argv.tile) argv.bbox = tilebelt.tileToBBOX(argv.tile.split('/').map(parseFloat));
+  if(opts.b && typeof opts.b === 'string') opts.bbox = opts.b.split('=').join('').split(',').map(parseFloat);
+  else if(opts.b) opts.bbox = opts.b
+
+  if(opts.bbox && typeof opts.bbox === 'string') opts.bbox = opts.bbox.split('=').join('').split(',').map(parseFloat);
+  else if(opts.bbox) opts.bbox = opts.bbox;
+  else if(opts.t) opts.bbox = tilebelt.tileToBBOX(opts.t.split('/').map(parseFloat));
+  else if(opts.tile) opts.bbox = tilebelt.tileToBBOX(opts.tile.split('/').map(parseFloat));
 
   // clip geometries to bbox
-  if(argv.bbox) {
-    var bboxPoly = turf.bboxPolygon(argv.bbox);
+  if(opts.bbox) {
+    var bboxPoly = turf.bboxPolygon(opts.bbox);
     fc.features = fc.features.map(function(f){
-      var intersect = turf.intersect(bboxPoly, f)
-      if(intersect) return intersect
+      var intersect = turf.intersect(bboxPoly, f);
+      if(intersect) return intersect;
     });
     fc.features = fc.features.filter(function(f){
-      if(f) return f
+      if(f) return f;
     });
   }
 
@@ -56,7 +57,7 @@ else {
           turf.linestring([[bbox[0], bbox[1]], [bbox[2], bbox[1]]]).geometry,
           {min_zoom: z, max_zoom: z}
         );
-      var lineXs = lineTilesX.map(function(t){return t[0]; });
+      var lineXs = lineTilesX.map(function(t){ return t[0]; });
       var lineMinX = lineXs.reduce(function(a, b){
         if(a < b) return a;
         else return b;
@@ -106,11 +107,11 @@ else {
   });
 
   // fit frame to bbox and filter out of scope tile pixels
-  if(argv.bbox) {
+  if(opts.bbox) {
     // override frame if bbox or tile is given
     frame = 0;
-    var topLeft = tilebelt.pointToTile(argv.bbox[0], argv.bbox[3], zoom);
-    var bottomRight = tilebelt.pointToTile(argv.bbox[2], argv.bbox[1], zoom);
+    var topLeft = tilebelt.pointToTile(opts.bbox[0], opts.bbox[3], zoom);
+    var bottomRight = tilebelt.pointToTile(opts.bbox[2], opts.bbox[1], zoom);
     // clip tile pixels outside the bbox frame
     tiles = tiles.filter(function(t) {
       if(t[0] >= topLeft[0] &&
@@ -174,17 +175,5 @@ else {
   }
 
   // output ascii render
-  console.log(map);
-}
-
-function docs(){
-  console.log('geotype\n===\n');
-  console.log('geotype [file]\n');
-  console.log('-z --zoom : specify fixed tile pixel zoom level\n');
-  console.log('-b --bbox=minX,minY,maxX,maxY : set frame to a bbox\n');
-  console.log('-t --tile : set frame to a tile [x/y/z]\n');
-  console.log('-m --mod : overzoom factor\n');
-  console.log('-f --frame : number of tile pixels to pad sides of frame\n');
-  console.log('--nocolor : display plain ascii w/o colors\n');
-  console.log('-h --help : show docs\n');
+  return map;
 }
