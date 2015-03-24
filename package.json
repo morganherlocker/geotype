@@ -1,6 +1,6 @@
 {
   "name": "geotype",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "geojson to ascii cli tool",
   "main": "index.js",
   "scripts": {
