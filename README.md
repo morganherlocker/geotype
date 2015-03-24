@@ -12,13 +12,13 @@ geotype is a cli tool for rendering geojson as ascii in your terminal.
 
 ##cli
 
-###install
+####install
 
 ```sh
 npm install geotype -g
 ```
 
-###run
+####run
 
 ```sh
 geotype world.geojson
@@ -32,13 +32,13 @@ cat world.geojson | geotype
 
 ##node.js
 
-###install
+####install
 
 ```sh
 npm install geotype
 ```
 
-###example
+####example
 
 ```js
 var geotype = require('geotype')
