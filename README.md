@@ -10,13 +10,15 @@ geotype is a cli tool for rendering geojson as ascii in your terminal.
 *no colors*
 ![](https://dl.dropbox.com/s/m4pq6wqej2hbuhq/Screenshot%202015-03-12%2000.41.56.png?dl=0)
 
-##install
+##cli
+
+###install
 
 ```sh
 npm install geotype -g
 ```
 
-##run
+###run
 
 ```sh
 geotype world.geojson
@@ -26,6 +28,29 @@ geotype world.geojson
 
 ```sh
 cat world.geojson | geotype
+```
+
+##node.js
+
+###install
+
+```sh
+npm install geotype
+```
+
+###example
+
+```js
+var geotype = require('geotype')
+var fs = require('fs')
+
+//default
+var world = JSON.parse(fs.readFileSync('./world.geojson'))
+var ascii = geotype(world)
+console.log(ascii)
+
+//options
+console.log(geotype(world, {tile: '4/4/4', zoom: 9}))
 ```
 
 ##options
