@@ -68,6 +68,10 @@ console.log(geotype(world, {tile: '4/4/4', zoom: 9}))
 
 --nocolor : display plain ascii w/o colors
 
+-p --png : output to png instead of ascii
+
+-r --res [256]: image resolution
+
 -h --help : show docs
 ```
 
