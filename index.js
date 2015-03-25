@@ -9,7 +9,7 @@ var tilebelt = require('tilebelt');
 module.exports = function(geo, opts){
   if(!opts) opts = {};
   // normalize geojson data
-  var fc = JSON.parse(JSON.stringify(geo))
+  var fc = JSON.parse(JSON.stringify(geo));
   fc = flatten(normalize(fc));
 
   // parse options
@@ -27,7 +27,7 @@ module.exports = function(geo, opts){
   if(opts.mod) mod = opts.mod;
   // fixed tile and bbox frame
   if(opts.b && typeof opts.b === 'string') opts.bbox = opts.b.split('=').join('').split(',').map(parseFloat);
-  else if(opts.b) opts.bbox = opts.b
+  else if(opts.b) opts.bbox = opts.b;
 
   if(opts.bbox && typeof opts.bbox === 'string') opts.bbox = opts.bbox.split('=').join('').split(',').map(parseFloat);
   else if(opts.bbox) opts.bbox = opts.bbox;

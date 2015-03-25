@@ -27,9 +27,11 @@
     "geojson-flatten": "^0.1.0",
     "geojson-normalize": "0.0.0",
     "minimist": "^1.1.1",
+    "save-pixels": "^2.2.0",
     "tile-cover": "2.4.0",
     "tilebelt": "0.7.1",
-    "turf": "2.0.2"
+    "turf": "2.0.2",
+    "zeros": "0.0.0"
   },
   "bin": {
     "geotype": "./bin/geotype.js"
