@@ -6,7 +6,7 @@ var concat = require('concat-stream');
 var savePixels = require("save-pixels");
 var zeros = require("zeros");
 
-if(argv.h || argv.help){
+if(argv.h || argv.help || !argv._.length){
   docs();
 }
 else {
