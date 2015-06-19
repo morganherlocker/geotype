@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-var argv = require('minimist')(process.argv.slice(2));
+var argv = require('minimist')(process.argv.slice(2),{boolean: ["p","png","nocolor","h","help"]});
 var fs = require('fs');
 var geotype = require('../');
 var concat = require('concat-stream');
 var savePixels = require("save-pixels");
 var zeros = require("zeros");
 
-if(argv.h || argv.help){
+if(argv.h || argv.help || (!argv._.length && process.stdin.isTTY)){
   docs();
 }
 else {
